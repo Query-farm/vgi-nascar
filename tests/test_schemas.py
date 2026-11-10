@@ -154,7 +154,7 @@ def test_driver_rows_deduplicate_and_filter() -> None:
     assert all(row["driver_id"] > 0 for row in rows)
     blaney = next(row for row in rows if row["driver_id"] == 4023)
     assert blaney["birth_date"] == date(1993, 12, 31)
-    assert blaney["rookie_year_cup"] == 2017
+    assert blaney["rookie_year"] == 2017
     assert blaney["profile_published"] is True
     assert {row["series"] for row in s.driver_rows(payload, "cup")} == {"nascar-cup-series"}
     assert s.driver_names(payload)[4030] == "Kyle Larson"

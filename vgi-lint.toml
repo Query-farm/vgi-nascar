@@ -12,13 +12,13 @@ names avoid those collisions.\
 ]
 
 [per_object."nascar.main.all_current_schedule"]
-ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test queries that table, which runs this scan." }]
 
 [per_object."nascar.main.all_current_standings"]
-ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test queries that table, which runs this scan." }]
 
 [per_object."nascar.main.all_last_race_results"]
-ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test queries that table, which runs this scan." }]
 
 [per_object."nascar.main.all_live_race"]
-ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test queries that table, which runs this scan." }]

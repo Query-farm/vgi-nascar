@@ -79,7 +79,7 @@ Truck. Functions that take a `series` argument accept `cup`, `oreilly` (alias
 
 | Data | Available from |
 | --- | --- |
-| Schedules and race summaries | 2015 (NASCAR's 2017 race list is missing, so 2017 returns no rows) |
+| Schedules and race summaries | 2015 (NASCAR's 2017 race list holds 2018 races, so 2017 returns no rows) |
 | Official results, stages, cautions, lead stints, sessions | 2018 |
 | Loop-data statistics | 2019 |
 | Lap times, pit stops, lap notes | 2020 |
@@ -114,8 +114,14 @@ WHERE is_points_race
 ORDER BY race_date;
 ```
 
-`race_date` is the start time NASCAR publishes, in US Eastern time
-(America/New_York) with no offset stored.
+`race_date` is the start time NASCAR publishes, as a wall-clock time with no
+offset stored. It is US Eastern (America/New_York) for most races, but NASCAR
+published track-local time for some 2019-2023 races at Pacific and Mountain
+tracks (for example, the 2019 Las Vegas spring race reads 12:30 rather than
+15:30). NASCAR's race lists also omit the winner for 2015-2019 and some 2022
+races. From 2018 the worker fills it in from the official results, so
+`schedule()` for those seasons fetches each race's results file once. For
+2015-2016 the winner stays NULL.
 
 ### Results
 

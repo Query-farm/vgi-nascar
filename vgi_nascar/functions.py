@@ -164,13 +164,43 @@ class RaceArgs:
 # --- schedule ---------------------------------------------------------------------
 
 
+def missing_winners(season: int, races: Sequence[Mapping[str, Any]]) -> dict[int, tuple[int, str | None]]:
+    """Winners of completed races whose race-list entry has no ``winner_driver_id``.
+
+    NASCAR's race lists omit the winner for every 2018-2019 race and for some 2022
+    races. Official results exist from 2018, so those winners are read from each
+    race's weekend feed (fetched with bounded concurrency and cached). Earlier
+    seasons have no results feed and keep a NULL winner.
+    """
+    if season < api.FIRST_RESULTS_SEASON:
+        return {}
+    pending = [
+        (s.to_int(race.get("series_id")) or 0, s.to_int(race.get("race_id")) or 0)
+        for race in races
+        if s.to_positive_int(race.get("winner_driver_id")) is None and s.to_int(race.get("actual_laps"))
+    ]
+    feeds = api.fetch_many(
+        [f"cacher/{season}/{series}/{race_id}/weekend-feed.json" for series, race_id in pending],
+        ttl=api.season_ttl(season),
+    )
+    winners: dict[int, tuple[int, str | None]] = {}
+    for (series, race_id), feed in zip(pending, feeds, strict=True):
+        for row in s.result_rows(feed.payload, season, series, race_id):
+            if row["finishing_position"] == 1:
+                winners[race_id] = (row["driver_id"], row["driver_name"])
+                break
+    return winners
+
+
 def schedule_rows(season: int, series: str | None) -> list[dict[str, Any]]:
     """Flattened schedule rows for one season, optionally one series."""
     races = api.season_races(season)
     if series is not None:
         wanted = api.series_id(series)
         races = [race for race in races if s.to_int(race.get("series_id")) == wanted]
-    return s.schedule_rows(races, _names() if races else {})
+    if not races:
+        return []
+    return s.schedule_rows(races, _names(), missing_winners(season, races))
 
 
 _SCHEDULE_EXAMPLES = [
@@ -208,14 +238,16 @@ class ScheduleFunction(TableFunctionGenerator[ScheduleArgs]):
             (
                 "One row per race (points races and exhibitions) with date, track, laps, distance, "
                 "stage lengths, pole and race winner, lead changes, cautions and broadcaster. Seasons "
-                "2015 onwards (NASCAR publishes no 2017 list, so 2017 is empty); series cup, "
+                "2015 onwards (NASCAR's 2017 list holds 2018 races, so 2017 is empty); series cup, "
                 "oreilly (xfinity) or truck, NULL for all. Use race_id from "
                 "here with race_results(), lap_times(), pit_stops() and the other per-race functions."
             ),
             (
-                "Season race lists from NASCAR's own feeds. `race_date` is the published US Eastern "
-                "wall-clock start time. Before a race runs, `winner_driver_id` is NULL and "
-                "`is_completed` is false. Winner names come from NASCAR's driver list."
+                "Season race lists from NASCAR's own feeds. `race_date` is the published wall-clock "
+                "start time: US Eastern for most races, track-local for some 2019-2023 races in the "
+                "Pacific and Mountain zones. Before a race runs, `winner_driver_id` is NULL and "
+                "`is_completed` is false. Where a race list omits the winner (2018-2019, parts of "
+                "2022) it is read from the official results; 2015-2016 winners stay NULL."
             ),
             _SCHEDULE_EXAMPLES,
         )
@@ -944,7 +976,7 @@ class DriversFunction(TableFunctionGenerator[DriversArgs]):
         """Function discovery metadata."""
 
         name = "drivers"
-        description = "NASCAR driver profiles: names, birth dates, hometowns, teams and rookie years"
+        description = "NASCAR driver profiles: names, birth dates, hometowns, teams and rookie year"
         categories = ["motorsport", "drivers"]
         projection_pushdown = True
         tags = _tags(
@@ -953,7 +985,7 @@ class DriversFunction(TableFunctionGenerator[DriversArgs]):
             (
                 "One row per driver profile (a driver can have one per series). Use to resolve "
                 "driver_id to names, birth dates, hometowns, current team, crew chief and rookie "
-                "years. profile_published is true for drivers with a live nascar.com page."
+                "year. profile_published is true for drivers with a live nascar.com page."
             ),
             (
                 "NASCAR's driver master list. Image and profile columns are links to nascar.com; "

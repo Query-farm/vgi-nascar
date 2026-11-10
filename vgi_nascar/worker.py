@@ -66,7 +66,7 @@ _SCHEDULE_TAGS = {
     "vgi.keywords": json.dumps(["schedule", "calendar", "races", "tracks", "winners", "scores"]),
     "vgi.doc_llm": (
         "Current-season race calendar for Cup, O'Reilly Auto Parts (Xfinity) and Truck: one row per "
-        "race with race_id, date (US Eastern), track, laps, stage lengths, pole winner, winner, "
+        "race with race_id, date (US Eastern wall clock), track, laps, stage lengths, pole winner, winner, "
         "lead changes and cautions. is_completed separates results from upcoming races. Use race_id "
         "with race_results() and the other per-race functions; schedule() covers 2015 onwards."
     ),

@@ -122,3 +122,24 @@ def test_cardinalities_are_declared() -> None:
     for function in f.FUNCTIONS:
         estimate = function.cardinality(None)
         assert 0 < estimate.estimate <= estimate.max
+
+
+def test_missing_winners_are_read_from_official_results(fixture_feeds: list[str]) -> None:
+    # NASCAR's 2018-2019 race lists carry no winner_driver_id; the worker reads the
+    # winner from each completed race's weekend feed instead.
+    races = [
+        {"race_id": 5601, "series_id": 1, "actual_laps": 267, "race_season": 2026},
+        {"race_id": 5639, "series_id": 2, "actual_laps": 200, "winner_driver_id": 4062},
+        {"race_id": 9999, "series_id": 1, "actual_laps": 0},
+    ]
+    assert f.missing_winners(2026, races) == {5601: (4023, "Ryan Blaney")}
+    assert fixture_feeds == ["cacher/2026/1/5601/weekend-feed.json"]
+    rows = s.schedule_rows(races, {}, f.missing_winners(2026, races))
+    final = next(row for row in rows if row["race_id"] == 5601)
+    assert final["winner_driver_id"] == 4023 and final["winner_name"] == "Ryan Blaney"
+
+
+def test_missing_winners_skip_seasons_without_results(fixture_feeds: list[str]) -> None:
+    races = [{"race_id": 4390, "series_id": 1, "actual_laps": 200}]
+    assert f.missing_winners(2016, races) == {}
+    assert fixture_feeds == []

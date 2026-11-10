@@ -68,3 +68,11 @@ def test_drivers_and_live_feed() -> None:
     assert len(rows) > 500
     assert any(row["full_name"] == "Ryan Blaney" for row in rows)
     assert len(s.live_rows(api.live_feed().payload)) <= 1
+
+
+def test_2019_schedule_winners_come_from_results() -> None:
+    # The 2019 race list has no winner_driver_id; winners are filled from the results.
+    rows = f.schedule_rows(2019, "cup")
+    assert rows and all(row["winner_driver_id"] is not None for row in rows if row["is_completed"])
+    daytona = next(row for row in rows if row["race_name"] == "DAYTONA 500")
+    assert daytona["winner_name"] == "Denny Hamlin"

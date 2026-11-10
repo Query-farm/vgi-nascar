@@ -55,12 +55,13 @@ SCHEDULE_SCHEMA = pa.schema(
         field(
             "race_date",
             TIMESTAMP_ET,
-            "Scheduled green-flag time, timezone America/New_York (US Eastern), stored without offset.",
+            "Race start as NASCAR publishes it, wall clock without offset: US Eastern (America/New_York) "
+            "for most races, track-local time for some 2019-2023 races at Pacific and Mountain tracks.",
         ),
         field(
             "qualifying_date",
             TIMESTAMP_ET,
-            "Qualifying time, timezone America/New_York (US Eastern), stored without offset.",
+            "Qualifying time as published, wall clock without offset (same zone caveat as race_date).",
         ),
         field("scheduled_laps", pa.int32(), "Scheduled race distance in laps."),
         field("actual_laps", pa.int32(), "Laps actually run, including overtime; 0 before the race."),
@@ -72,8 +73,12 @@ SCHEDULE_SCHEMA = pa.schema(
         field("cars_in_field", pa.int32(), "Number of starters."),
         field("pole_winner_driver_id", pa.int32(), "Driver identifier of the pole winner."),
         field("pole_winner_speed", pa.float64(), "Pole-winning qualifying speed in mph."),
-        field("winner_driver_id", pa.int32(), "Driver identifier of the race winner; NULL before the race."),
-        field("winner_name", pa.string(), "Race winner's name, from NASCAR's driver list."),
+        field(
+            "winner_driver_id",
+            pa.int32(),
+            "Driver identifier of the race winner; NULL before the race and for 2015-2016 races.",
+        ),
+        field("winner_name", pa.string(), "Race winner's name, from the driver list or official results."),
         field("lead_changes", pa.int32(), "Number of lead changes."),
         field("leaders", pa.int32(), "Number of different leaders."),
         field("cautions", pa.int32(), "Number of caution periods."),
@@ -100,7 +105,8 @@ RESULTS_SCHEMA = pa.schema(
         field(
             "race_date",
             TIMESTAMP_ET,
-            "Scheduled green-flag time, timezone America/New_York (US Eastern), stored without offset.",
+            "Race start as NASCAR publishes it, wall clock without offset: US Eastern (America/New_York) "
+            "for most races, track-local time for some 2019-2023 races at Pacific and Mountain tracks.",
         ),
         field("finishing_position", pa.int32(), "Official finishing position (1 = winner).", nullable=False),
         field("starting_position", pa.int32(), "Grid position at the start (1 = pole)."),
@@ -340,9 +346,11 @@ DRIVERS_SCHEMA = pa.schema(
         field("team", pa.string(), "Current team as published on the driver profile."),
         field("crew_chief", pa.string(), "Current crew chief as published on the driver profile."),
         field("car_badge", pa.string(), "Car-number badge on the profile (some placeholders repeat the ID)."),
-        field("rookie_year_cup", pa.int32(), "Cup Series rookie year, when published."),
-        field("rookie_year_oreilly", pa.int32(), "O'Reilly Auto Parts (Xfinity) Series rookie year."),
-        field("rookie_year_truck", pa.int32(), "Truck Series rookie year, when published."),
+        field(
+            "rookie_year",
+            pa.int32(),
+            "Rookie year as published on the profile (NASCAR repeats one value in all three series fields).",
+        ),
         field("part_time", pa.bool_(), "Whether NASCAR marks the driver as part-time."),
         field("profile_published", pa.bool_(), "Whether the nascar.com driver profile is published."),
         field("twitter_handle", pa.string(), "Social handle as published."),
@@ -522,13 +530,25 @@ def _dicts(value: Any) -> list[Mapping[str, Any]]:
 # --- flatteners -----------------------------------------------------------------
 
 
-def schedule_rows(races: Iterable[Mapping[str, Any]], names: Mapping[int, str]) -> list[dict[str, Any]]:
-    """One row per race from a season race list."""
+def schedule_rows(
+    races: Iterable[Mapping[str, Any]],
+    names: Mapping[int, str],
+    winners: Mapping[int, tuple[int, str | None]] | None = None,
+) -> list[dict[str, Any]]:
+    """One row per race from a season race list.
+
+    ``winners`` maps race_id to (driver_id, name) taken from official results, for
+    completed races whose race-list entry omits ``winner_driver_id``.
+    """
     rows: list[dict[str, Any]] = []
     for race in races:
         series = to_int(race.get("series_id"))
         race_type = to_int(race.get("race_type_id"))
         winner = to_positive_int(race.get("winner_driver_id"))
+        winner_name = names.get(winner) if winner else None
+        fallback = (winners or {}).get(to_int(race.get("race_id")) or 0)
+        if winner is None and fallback is not None:
+            winner, winner_name = fallback
         actual_laps = to_int(race.get("actual_laps"))
         rows.append(
             {
@@ -555,7 +575,7 @@ def schedule_rows(races: Iterable[Mapping[str, Any]], names: Mapping[int, str]) 
                 "pole_winner_driver_id": to_positive_int(race.get("pole_winner_driver_id")),
                 "pole_winner_speed": to_float(race.get("pole_winner_speed")),
                 "winner_driver_id": winner,
-                "winner_name": names.get(winner) if winner else None,
+                "winner_name": winner_name,
                 "lead_changes": to_int(race.get("number_of_lead_changes")),
                 "leaders": to_int(race.get("number_of_leaders")),
                 "cautions": to_int(race.get("number_of_cautions")),
@@ -1021,9 +1041,16 @@ def driver_rows(payload: Any, series: str | None = None) -> list[dict[str, Any]]
                 "team": to_str(entry.get("Team")),
                 "crew_chief": to_str(entry.get("Crew_Chief")),
                 "car_badge": to_str(entry.get("Badge")),
-                "rookie_year_cup": to_positive_int(entry.get("Rookie_Year_Series_1")),
-                "rookie_year_oreilly": to_positive_int(entry.get("Rookie_Year_Series_2")),
-                "rookie_year_truck": to_positive_int(entry.get("Rookie_Year_Series_3")),
+                # The three per-series rookie-year fields always hold the same value
+                # upstream, so they are exposed as one column rather than three copies.
+                "rookie_year": next(
+                    (
+                        year
+                        for key in ("Rookie_Year_Series_1", "Rookie_Year_Series_2", "Rookie_Year_Series_3")
+                        if (year := to_positive_int(entry.get(key))) is not None
+                    ),
+                    None,
+                ),
                 "part_time": to_bool(entry.get("Driver_Part_Time")),
                 "profile_published": to_str(entry.get("Driver_Post_Status")) == "publish",
                 "twitter_handle": to_str(entry.get("Twitter_Handle")),
