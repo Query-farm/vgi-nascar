@@ -1,0 +1,24 @@
+location = "uv run --project . vgi-nascar"
+select = ["ALL"]
+fail_on = "warning"
+
+ignore = [
+  { code = "VGI311", kind = "tooling-bug", reason = """\
+Each parameterless all_current_* / all_last_race_results / all_live_race scan is exposed as its \
+corresponding current_*, last_race_results or live_race table. The rule only recognizes matching \
+names, but a function and a table cannot share a name inside one schema; the deliberate all_* \
+names avoid those collisions.\
+""" },
+]
+
+[per_object."nascar.main.all_current_schedule"]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+
+[per_object."nascar.main.all_current_standings"]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+
+[per_object."nascar.main.all_last_race_results"]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]
+
+[per_object."nascar.main.all_live_race"]
+ignore = [{ code = "VGI520", kind = "domain-exemption", reason = "Agent tasks exercise the public table backed by this scan. Teaching agents to call the implementation function directly would undermine the table abstraction; the hermetic Haybarn E2E test and the table's executable examples run it." }]

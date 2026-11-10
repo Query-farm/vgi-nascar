@@ -1,0 +1,413 @@
+{
+ "weekend_race": [
+  {
+   "race_id": 5639,
+   "series_id": 2,
+   "race_season": 2026,
+   "race_name": "NASCAR O'Reilly Auto Parts Series Championship Race",
+   "race_type_id": 1,
+   "restrictor_plate": false,
+   "track_id": 40,
+   "track_name": "Homestead-Miami Speedway",
+   "date_scheduled": "2026-11-07T17:00:00",
+   "race_date": "2026-11-07T17:00:00",
+   "qualifying_date": "2026-11-07T17:00:00",
+   "tunein_date": "2026-11-07T17:00:00",
+   "scheduled_distance": 300,
+   "actual_distance": 300,
+   "scheduled_laps": 200,
+   "actual_laps": 200,
+   "stage_1_laps": 45,
+   "stage_2_laps": 44,
+   "stage_3_laps": 111,
+   "stage_4_laps": 0,
+   "number_of_cars_in_field": 38,
+   "pole_winner_driver_id": 4204,
+   "pole_winner_speed": 160.82,
+   "number_of_lead_changes": 12,
+   "number_of_leaders": 5,
+   "number_of_cautions": 4,
+   "number_of_caution_laps": 27,
+   "average_speed": 121.457,
+   "total_race_time": "2:28:12",
+   "margin_of_victory": "3.937",
+   "race_purse": 0,
+   "race_comments": "Brandon Jones has won the NASCAR O'Reilly Auto Parts Series at Homestead-Miami Speedway, his ninth victory in the NASCAR O'Reilly Auto Parts Series. Prior to the start of the race, the following vehicle(s) dropped to the rear of the field under penalty: No. 96 (Unapproved Adjustments).",
+   "attendance": 0,
+   "results": [
+    {
+     "result_id": 304861,
+     "finishing_position": 1,
+     "starting_position": 8,
+     "car_number": "20",
+     "driver_fullname": "Brandon Jones",
+     "driver_id": 4085,
+     "driver_hometown": "Atlanta, Georgia",
+     "hometown_city": "Atlanta",
+     "hometown_state": "Georgia",
+     "hometown_country": "United States",
+     "team_id": 1912,
+     "team_name": "Joe Gibbs Racing",
+     "qualifying_order": 12,
+     "qualifying_position": 8,
+     "qualifying_speed": 159.986,
+     "laps_led": 25,
+     "times_led": 3,
+     "car_make": "Toyota",
+     "car_model": "Supra",
+     "sponsor": "Menards/Tuscany",
+     "points_earned": 61,
+     "playoff_points_earned": 0,
+     "laps_completed": 200,
+     "finishing_status": "Running",
+     "winnings": 0,
+     "series_id": 2,
+     "race_season": 2026,
+     "race_id": 5639,
+     "owner_fullname": "Joe Gibbs Racing",
+     "crew_chief_id": 7674,
+     "crew_chief_fullname": "Samuel McAulay",
+     "points_position": 8,
+     "points_delta": 0,
+     "owner_id": 4047,
+     "official_car_number": "20",
+     "disqualified": false,
+     "diff_laps": 0,
+     "diff_time": 0,
+     "pit_box": 0
+    },
+    {
+     "result_id": 304852,
+     "finishing_position": 2,
+     "starting_position": 3,
+     "car_number": "1",
+     "driver_fullname": "Carson Kvapil",
+     "driver_id": 4467,
+     "driver_hometown": "Mooresville, North Carolina",
+     "hometown_city": "Mooresville",
+     "hometown_state": "North Carolina",
+     "hometown_country": "United States",
+     "team_id": 1898,
+     "team_name": "JR Motorsports",
+     "qualifying_order": 3,
+     "qualifying_position": 3,
+     "qualifying_speed": 160.561,
+     "laps_led": 36,
+     "times_led": 3,
+     "car_make": "Chevrolet",
+     "car_model": "Camaro",
+     "sponsor": "Bass Pro Shops ",
+     "points_earned": 44,
+     "playoff_points_earned": 0,
+     "laps_completed": 200,
+     "finishing_status": "Running",
+     "winnings": 0,
+     "series_id": 2,
+     "race_season": 2026,
+     "race_id": 5639,
+     "owner_fullname": "JR Motorsports",
+     "crew_chief_id": 555,
+     "crew_chief_fullname": "Rodney Childers",
+     "points_position": 3,
+     "points_delta": 0,
+     "owner_id": 2261,
+     "official_car_number": "1",
+     "disqualified": false,
+     "diff_laps": 0,
+     "diff_time": 3937,
+     "pit_box": 0
+    },
+    {
+     "result_id": 304860,
+     "finishing_position": 3,
+     "starting_position": 5,
+     "car_number": "19",
+     "driver_fullname": "Brent Crews",
+     "driver_id": 4504,
+     "driver_hometown": "Davidson, North Carolina",
+     "hometown_city": "Davidson",
+     "hometown_state": "North Carolina",
+     "hometown_country": "United States",
+     "team_id": 1909,
+     "team_name": "Joe Gibbs Racing",
+     "qualifying_order": 11,
+     "qualifying_position": 5,
+     "qualifying_speed": 160.442,
+     "laps_led": 0,
+     "times_led": 0,
+     "car_make": "Toyota",
+     "car_model": "Supra",
+     "sponsor": "Younglife",
+     "points_earned": 44,
+     "playoff_points_earned": 0,
+     "laps_completed": 200,
+     "finishing_status": "Running",
+     "winnings": 0,
+     "series_id": 2,
+     "race_season": 2026,
+     "race_id": 5639,
+     "owner_fullname": "Joe Gibbs Racing",
+     "crew_chief_id": 7672,
+     "crew_chief_fullname": "Seth Chavka",
+     "points_position": 13,
+     "points_delta": 0,
+     "owner_id": 4047,
+     "official_car_number": "19",
+     "disqualified": false,
+     "diff_laps": 0,
+     "diff_time": 4469,
+     "pit_box": 0
+    }
+   ],
+   "caution_segments": [
+    {
+     "race_id": 5639,
+     "start_lap": 9,
+     "end_lap": 13,
+     "reason": "Accident",
+     "comment": "#17, 88 Incident Turn 3",
+     "beneficiary_car_number": "28",
+     "flag_state": 2
+    },
+    {
+     "race_id": 5639,
+     "start_lap": 47,
+     "end_lap": 53,
+     "reason": "Competition",
+     "comment": "Stage 1 Conclusion",
+     "beneficiary_car_number": "27",
+     "flag_state": 2
+    },
+    {
+     "race_id": 5639,
+     "start_lap": 90,
+     "end_lap": 96,
+     "reason": "Spin",
+     "comment": "#27 Spin Turn 4 / Stage 2 Conclusion",
+     "beneficiary_car_number": "48",
+     "flag_state": 2
+    },
+    {
+     "race_id": 5639,
+     "start_lap": 144,
+     "end_lap": 151,
+     "reason": "Accident",
+     "comment": "#32 Incident Pit Road Entry [Red Flag: 00:10:24]",
+     "beneficiary_car_number": "19",
+     "flag_state": 2
+    }
+   ],
+   "race_leaders": [
+    {
+     "start_lap": 1,
+     "end_lap": 32,
+     "car_number": "00",
+     "race_id": 5639
+    },
+    {
+     "start_lap": 33,
+     "end_lap": 49,
+     "car_number": "41",
+     "race_id": 5639
+    }
+   ],
+   "infractions": [],
+   "schedule": [
+    {
+     "event_name": "Driver / Crew Chief Meeting",
+     "notes": "Sent Electronically",
+     "start_time_utc": "2026-11-04T22:00:00",
+     "run_type": 0
+    },
+    {
+     "event_name": "Haulers Enter",
+     "notes": "Equipment Unloading",
+     "start_time_utc": "2026-11-06T13:00:00",
+     "run_type": 0
+    }
+   ],
+   "stage_results": [
+    {
+     "stage_number": 1,
+     "results": [
+      {
+       "driver_fullname": "Sam Mayer",
+       "driver_id": 4327,
+       "car_number": "41",
+       "finishing_position": 1,
+       "stage_points": 10
+      },
+      {
+       "driver_fullname": "Sheldon Creed",
+       "driver_id": 4204,
+       "car_number": "00",
+       "finishing_position": 2,
+       "stage_points": 9
+      },
+      {
+       "driver_fullname": "Jesse Love",
+       "driver_id": 4463,
+       "car_number": "2",
+       "finishing_position": 3,
+       "stage_points": 8
+      }
+     ]
+    },
+    {
+     "stage_number": 2,
+     "results": [
+      {
+       "driver_fullname": "Sam Mayer",
+       "driver_id": 4327,
+       "car_number": "41",
+       "finishing_position": 1,
+       "stage_points": 10
+      },
+      {
+       "driver_fullname": "Sheldon Creed",
+       "driver_id": 4204,
+       "car_number": "00",
+       "finishing_position": 2,
+       "stage_points": 9
+      },
+      {
+       "driver_fullname": "Jesse Love",
+       "driver_id": 4463,
+       "car_number": "2",
+       "finishing_position": 3,
+       "stage_points": 8
+      }
+     ]
+    }
+   ],
+   "pit_reports": [],
+   "radio_broadcaster": "MRN",
+   "television_broadcaster": "CW",
+   "satellite_radio_broadcaster": "SIRIUSXM",
+   "master_race_id": 2861,
+   "timing_run_id": 11,
+   "inspection_complete": true,
+   "playoff_round": 1
+  }
+ ],
+ "weekend_runs": [
+  {
+   "weekend_run_id": 6092,
+   "race_id": 5639,
+   "timing_run_id": 9,
+   "run_type": 1,
+   "run_name": "NOAPS Final Practice",
+   "run_date": "2026-11-06T16:00:00",
+   "run_date_utc": "2026-11-06T21:00:00",
+   "results": [
+    {
+     "run_id": 6092,
+     "car_number": "96",
+     "vehicle_number": "96",
+     "manufacturer": "Chevrolet",
+     "driver_id": 4301,
+     "driver_name": "Anthony Alfredo",
+     "finishing_position": 1,
+     "best_lap_time": 33.384,
+     "best_lap_speed": 161.754,
+     "best_lap_number": 1,
+     "laps_completed": 39,
+     "comment": "",
+     "delta_leader": 0,
+     "disqualified": false
+    },
+    {
+     "run_id": 6092,
+     "car_number": "51",
+     "vehicle_number": "51",
+     "manufacturer": "Chevrolet",
+     "driver_id": 595,
+     "driver_name": "Jeremy Clements",
+     "finishing_position": 2,
+     "best_lap_time": 33.462,
+     "best_lap_speed": 161.377,
+     "best_lap_number": 1,
+     "laps_completed": 21,
+     "comment": "",
+     "delta_leader": -0.078,
+     "disqualified": false
+    },
+    {
+     "run_id": 6092,
+     "car_number": "41",
+     "vehicle_number": "41",
+     "manufacturer": "Chevrolet",
+     "driver_id": 4327,
+     "driver_name": "Sam Mayer",
+     "finishing_position": 3,
+     "best_lap_time": 33.47,
+     "best_lap_speed": 161.339,
+     "best_lap_number": 36,
+     "laps_completed": 36,
+     "comment": "",
+     "delta_leader": -0.086,
+     "disqualified": false
+    }
+   ]
+  },
+  {
+   "weekend_run_id": 6094,
+   "race_id": 5639,
+   "timing_run_id": 10,
+   "run_type": 2,
+   "run_name": "NOAPS Championship Race Kennametal Pole Qualifying",
+   "run_date": "2026-11-07T17:00:00",
+   "run_date_utc": "2026-11-07T22:00:00",
+   "results": [
+    {
+     "run_id": 6094,
+     "car_number": "00",
+     "vehicle_number": "00",
+     "manufacturer": "Chevrolet",
+     "driver_id": 4204,
+     "driver_name": "Sheldon Creed",
+     "finishing_position": 1,
+     "best_lap_time": 33.578,
+     "best_lap_speed": 160.82,
+     "best_lap_number": 1,
+     "laps_completed": 1,
+     "comment": "",
+     "delta_leader": 0,
+     "disqualified": false
+    },
+    {
+     "run_id": 6094,
+     "car_number": "21",
+     "vehicle_number": "21",
+     "manufacturer": "Chevrolet",
+     "driver_id": 4133,
+     "driver_name": "Austin Hill",
+     "finishing_position": 2,
+     "best_lap_time": 33.617,
+     "best_lap_speed": 160.633,
+     "best_lap_number": 1,
+     "laps_completed": 1,
+     "comment": "",
+     "delta_leader": -0.039,
+     "disqualified": false
+    },
+    {
+     "run_id": 6094,
+     "car_number": "1",
+     "vehicle_number": "1",
+     "manufacturer": "Chevrolet",
+     "driver_id": 4467,
+     "driver_name": "Carson Kvapil",
+     "finishing_position": 3,
+     "best_lap_time": 33.632,
+     "best_lap_speed": 160.561,
+     "best_lap_number": 1,
+     "laps_completed": 1,
+     "comment": "",
+     "delta_leader": -0.054,
+     "disqualified": false
+    }
+   ]
+  }
+ ]
+}

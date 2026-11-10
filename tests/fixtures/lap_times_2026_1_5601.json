@@ -1,0 +1,165 @@
+{
+ "laps": [
+  {
+   "Number": "12",
+   "FullName": "Ryan Blaney (C)",
+   "Manufacturer": "Frd",
+   "RunningPos": 1,
+   "NASCARDriverID": 4023,
+   "Laps": [
+    {
+     "Lap": 0,
+     "LapTime": null,
+     "LapSpeed": null,
+     "RunningPos": 9
+    },
+    {
+     "Lap": 1,
+     "LapTime": 34.714,
+     "LapSpeed": "155.557",
+     "RunningPos": 12
+    },
+    {
+     "Lap": 2,
+     "LapTime": 33.379,
+     "LapSpeed": "161.778",
+     "RunningPos": 12
+    },
+    {
+     "Lap": 3,
+     "LapTime": 33.526,
+     "LapSpeed": "161.069",
+     "RunningPos": 10
+    },
+    {
+     "Lap": 4,
+     "LapTime": 33.707,
+     "LapSpeed": "160.204",
+     "RunningPos": 9
+    },
+    {
+     "Lap": 5,
+     "LapTime": 34.254,
+     "LapSpeed": "157.646",
+     "RunningPos": 9
+    }
+   ]
+  },
+  {
+   "Number": "45",
+   "FullName": "Tyler Reddick (C)",
+   "Manufacturer": "Tyt",
+   "RunningPos": 2,
+   "NASCARDriverID": 4065,
+   "Laps": [
+    {
+     "Lap": 0,
+     "LapTime": null,
+     "LapSpeed": null,
+     "RunningPos": 3
+    },
+    {
+     "Lap": 1,
+     "LapTime": 34.329,
+     "LapSpeed": "157.301",
+     "RunningPos": 2
+    },
+    {
+     "Lap": 2,
+     "LapTime": 32.76,
+     "LapSpeed": "164.835",
+     "RunningPos": 2
+    },
+    {
+     "Lap": 3,
+     "LapTime": 33.433,
+     "LapSpeed": "161.517",
+     "RunningPos": 3
+    },
+    {
+     "Lap": 4,
+     "LapTime": 33.73,
+     "LapSpeed": "160.095",
+     "RunningPos": 3
+    },
+    {
+     "Lap": 5,
+     "LapTime": 34.017,
+     "LapSpeed": "158.744",
+     "RunningPos": 3
+    }
+   ]
+  },
+  {
+   "Number": "19",
+   "FullName": "Chase Briscoe (C)",
+   "Manufacturer": "Tyt",
+   "RunningPos": 39,
+   "NASCARDriverID": 4228,
+   "Laps": [
+    {
+     "Lap": 0,
+     "LapTime": null,
+     "LapSpeed": null,
+     "RunningPos": 1
+    },
+    {
+     "Lap": 1,
+     "LapTime": 34.162,
+     "LapSpeed": "158.070",
+     "RunningPos": 1
+    },
+    {
+     "Lap": 2,
+     "LapTime": 32.87,
+     "LapSpeed": "164.284",
+     "RunningPos": 1
+    },
+    {
+     "Lap": 3,
+     "LapTime": 33.134,
+     "LapSpeed": "162.975",
+     "RunningPos": 1
+    },
+    {
+     "Lap": 4,
+     "LapTime": 33.596,
+     "LapSpeed": "160.733",
+     "RunningPos": 1
+    },
+    {
+     "Lap": 5,
+     "LapTime": 33.848,
+     "LapSpeed": "159.537",
+     "RunningPos": 1
+    }
+   ]
+  }
+ ],
+ "flags": [
+  {
+   "LapsCompleted": 0,
+   "FlagState": 8
+  },
+  {
+   "LapsCompleted": 1,
+   "FlagState": 1
+  },
+  {
+   "LapsCompleted": 2,
+   "FlagState": 1
+  },
+  {
+   "LapsCompleted": 3,
+   "FlagState": 1
+  },
+  {
+   "LapsCompleted": 4,
+   "FlagState": 1
+  },
+  {
+   "LapsCompleted": 5,
+   "FlagState": 1
+  }
+ ]
+}

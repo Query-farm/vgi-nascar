@@ -1,0 +1,117 @@
+# Private grader fields for the public tasks in the catalog's vgi.agent_test_tasks tag.
+# Historical tasks are pinned to finished races and seasons (the 2026 Cup Series
+# Championship Race, race 5601, and the 2025 Cup season) and grade by exact
+# reference comparison. Current-season tasks read live data that changes every race
+# weekend, so they grade with check_sql assertions plus success criteria.
+tasks:
+  - name: series_points_leaders
+    check_sql: >-
+      SELECT count(DISTINCT series_id) = 3 AND count(*) = 3
+      FROM nascar.main.current_standings
+      WHERE position = 1
+    success_criteria: >-
+      Uses current_standings and names the position-1 driver of each series_id (1 Cup,
+      2 O'Reilly Auto Parts, 3 Truck) with their points.
+
+  - name: latest_cup_winner
+    check_sql: >-
+      SELECT (SELECT count(*) FROM nascar.main.last_race_results
+              WHERE series_id = 1 AND finishing_position = 1) = 1
+         AND (SELECT count(*) FROM nascar.main.current_schedule WHERE series_id = 1) > 0
+    success_criteria: >-
+      Uses last_race_results for the latest Cup winner and track, and counts series_id = 1
+      rows in current_schedule.
+
+  - name: live_session
+    check_sql: >-
+      SELECT count(*) <= 1 FROM nascar.main.live_race
+    success_criteria: >-
+      Uses live_race; reports that nothing is on track when it is empty, otherwise the
+      session, lap number and flag.
+
+  - name: championship_race_top_five
+    reference_sql: >-
+      SELECT r.finishing_position, r.driver_name, d.birth_date
+      FROM nascar.main.race_results(5601, season := 2026) r
+      LEFT JOIN nascar.main.drivers(series := 'cup') d USING (driver_id)
+      WHERE r.finishing_position <= 5
+      ORDER BY r.finishing_position
+    ignore_column_names: true
+    success_criteria: >-
+      Joins race_results for race 5601 to drivers for birth dates: Ryan Blaney, Tyler Reddick,
+      William Byron, Christopher Bell and Bubba Wallace.
+
+  - name: championship_race_laps_led
+    reference_sql: >-
+      SELECT driver_name, sum(laps_led) AS laps_led
+      FROM nascar.main.race_leaders(5601, season := 2026)
+      GROUP BY driver_name
+      ORDER BY laps_led DESC
+      LIMIT 1
+    ignore_column_names: true
+    success_criteria: >-
+      Sums race_leaders stints for race 5601: Denny Hamlin led 87 laps.
+
+  - name: season_2025_cup_wins
+    reference_sql: >-
+      SELECT r.driver_name, count(*) AS wins
+      FROM nascar.main.season_results(season := 2025, series := 'cup') r
+      JOIN nascar.main.schedule(season := 2025, series := 'cup') USING (race_id)
+      WHERE is_points_race AND r.finishing_position = 1
+      GROUP BY r.driver_name
+      ORDER BY wins DESC, r.driver_name
+    ignore_column_names: true
+    unordered: true
+    success_criteria: >-
+      Counts 2025 Cup Series points-race wins (excluding exhibitions) per driver, e.g. Denny
+      Hamlin 6 and Shane Van Gisbergen 5.
+
+  - name: fastest_pit_stop
+    reference_sql: >-
+      SELECT driver_name, stop_seconds
+      FROM nascar.main.pit_stops(5601, season := 2026)
+      WHERE stop_type = 'FOUR_WHEEL_CHANGE'
+      ORDER BY stop_seconds
+      LIMIT 1
+    ignore_column_names: true
+    success_criteria: >-
+      Uses pit_stops for race 5601, filters four-tire stops and orders by stationary stop time.
+
+  - name: cautions_and_commentary
+    reference_sql: >-
+      SELECT c.caution_number, c.reason, count(n.note_id) AS notes
+      FROM nascar.main.race_cautions(5601, season := 2026) c
+      LEFT JOIN nascar.main.lap_notes(5601, season := 2026) n
+        ON n.lap BETWEEN c.start_lap AND c.end_lap
+      GROUP BY c.caution_number, c.reason
+      ORDER BY c.caution_number
+    ignore_column_names: true
+    success_criteria: >-
+      Joins race_cautions to lap_notes on the caution's lap range for race 5601.
+
+  - name: fastest_lap_and_rating
+    reference_sql: >-
+      SELECT
+        (SELECT driver_name FROM nascar.main.lap_times(5601, season := 2026)
+         WHERE lap > 0 ORDER BY lap_time_seconds LIMIT 1) AS fastest_lap,
+        (SELECT driver_name FROM nascar.main.loop_stats(5601, season := 2026)
+         ORDER BY driver_rating DESC LIMIT 1) AS top_rating
+    ignore_column_names: true
+    success_criteria: >-
+      Uses lap_times for the fastest lap (Ryan Blaney) and loop_stats for the top driver rating
+      (Tyler Reddick).
+
+  - name: pole_and_stage_winners
+    reference_sql: >-
+      SELECT 'pole' AS award, driver_name
+      FROM nascar.main.session_results(5601, season := 2026)
+      WHERE run_type = 'qualifying' AND position = 1
+      UNION ALL
+      SELECT 'stage ' || stage_number, driver_name
+      FROM nascar.main.stage_results(5601, season := 2026)
+      WHERE position = 1
+    ignore_column_names: true
+    unordered: true
+    success_criteria: >-
+      Uses session_results (qualifying) for the pole, Chase Briscoe, and stage_results for the
+      stage winners, Tyler Reddick and Denny Hamlin.

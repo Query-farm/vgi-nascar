@@ -1,0 +1,71 @@
+[
+ {
+  "race_id": 5601,
+  "race_name": "NASCAR Cup Series Championship Race",
+  "series_id": 1,
+  "sch_laps": 267,
+  "act_laps": 267,
+  "drivers": [
+   {
+    "driver_id": 4023,
+    "start_ps": 9,
+    "mid_ps": 13,
+    "ps": 1,
+    "closing_ps": 4,
+    "closing_laps_diff": 3,
+    "best_ps": 1,
+    "worst_ps": 28,
+    "avg_ps": 6.75,
+    "passes_gf": 98,
+    "passing_diff": 35,
+    "passed_gf": 63,
+    "quality_passes": 69,
+    "fast_laps": 40,
+    "top15_laps": 244,
+    "lead_laps": 7,
+    "laps": 267,
+    "rating": 118.81
+   },
+   {
+    "driver_id": 4065,
+    "start_ps": 3,
+    "mid_ps": 3,
+    "ps": 2,
+    "closing_ps": 2,
+    "closing_laps_diff": 0,
+    "best_ps": 1,
+    "worst_ps": 9,
+    "avg_ps": 2.36,
+    "passes_gf": 37,
+    "passing_diff": 2,
+    "passed_gf": 35,
+    "quality_passes": 35,
+    "fast_laps": 19,
+    "top15_laps": 267,
+    "lead_laps": 53,
+    "laps": 267,
+    "rating": 129.81
+   },
+   {
+    "driver_id": 4184,
+    "start_ps": 8,
+    "mid_ps": 8,
+    "ps": 3,
+    "closing_ps": 1,
+    "closing_laps_diff": -2,
+    "best_ps": 1,
+    "worst_ps": 25,
+    "avg_ps": 6.72,
+    "passes_gf": 86,
+    "passing_diff": -3,
+    "passed_gf": 89,
+    "quality_passes": 49,
+    "fast_laps": 6,
+    "top15_laps": 257,
+    "lead_laps": 38,
+    "laps": 267,
+    "rating": 110.64
+   }
+  ]
+ }
+]

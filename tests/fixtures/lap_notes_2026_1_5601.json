@@ -1,0 +1,51 @@
+{
+ "laps": {
+  "0": [
+   {
+    "FlagState": 1,
+    "Note": "Qualifying: #6 spins during his qualifying lap off turn 4 and hits the inside wall",
+    "NoteID": 68814,
+    "DriverIDs": [
+     1816
+    ]
+   },
+   {
+    "FlagState": 1,
+    "Note": "To the rear: #6 (unapproved adjustments)",
+    "NoteID": 68899,
+    "DriverIDs": [
+     1816
+    ]
+   }
+  ],
+  "1": [
+   {
+    "FlagState": 1,
+    "Note": "#19 leads the field to green from the inside, #11 outside.  #19 gets a nice jump and clears for the lead by turn 1.  #45 moves into 2nd but #11 and #5 join him in a 3-wide battle for 2nd",
+    "NoteID": 68900,
+    "DriverIDs": [
+     4228,
+     1361,
+     4228,
+     4065,
+     1361,
+     4030
+    ]
+   }
+  ],
+  "2": [
+   {
+    "FlagState": 1,
+    "Note": "#45 moves to 2nd, #20 moves up to 3rd as #11, #2 and #5 battle for 4th",
+    "NoteID": 68901,
+    "DriverIDs": [
+     4065,
+     4153,
+     1361,
+     4180,
+     4030
+    ]
+   }
+  ]
+ }
+}
