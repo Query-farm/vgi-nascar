@@ -29,18 +29,18 @@ dataset.
 
 ## Quick start
 
-Install the released worker with `uv`:
+The worker is not published to PyPI. `uvx` runs the tagged release straight from
+GitHub and caches it after the first use:
 
 ```bash
-uv tool install vgi-nascar
-vgi-nascar
+uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.1.0 vgi-nascar --help
 ```
 
 Launch Haybarn with the catalog pre-attached:
 
 ```bash
 uvx haybarn-cli \
-  -cmd "INSTALL vgi FROM community; LOAD vgi; ATTACH 'nascar' (TYPE vgi, LOCATION 'vgi-nascar');" \
+  -cmd "INSTALL vgi FROM community; LOAD vgi; ATTACH 'nascar' (TYPE vgi, LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.1.0 vgi-nascar');" \
   :memory:
 ```
 
@@ -51,7 +51,7 @@ INSTALL vgi FROM community;
 LOAD vgi;
 ATTACH 'nascar' (
   TYPE vgi,
-  LOCATION 'vgi-nascar'
+  LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.1.0 vgi-nascar'
 );
 ```
 
@@ -268,7 +268,7 @@ authentication or an explicit decision to allow anonymous access:
 export VGI_SIGNING_KEY='a-long-random-secret-shared-by-every-replica'
 export VGI_BEARER_TOKENS='replace-with-a-random-token=haybarn'
 
-vgi-nascar-http \
+uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.1.0 vgi-nascar-http \
   --host 0.0.0.0 \
   --port 8000 \
   --cors-origins 'https://sql.example.com' \
@@ -353,9 +353,11 @@ Race (race 5601) and the 2025 Cup season. A daily serialized workflow runs them
 together with the executing `vgi-lint` pass.
 
 Publishing is driven by releases. Create a GitHub release named `vX.Y.Z` that
-matches the version in `pyproject.toml`. CI then builds, attests, validates and
-publishes the distributions through PyPI trusted publishing, and publishes a
-multi-platform container image to GHCR.
+matches the version in `pyproject.toml`. CI then builds, validates and attests
+the wheel and sdist, attaches them to the release, and publishes a
+multi-platform container image to `ghcr.io/query-farm/vgi-nascar`. The package is
+not published to PyPI; install it from the release tag as shown in the quick
+start.
 
 ---
 
