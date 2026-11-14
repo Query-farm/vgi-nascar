@@ -96,11 +96,31 @@ def test_function_examples_reference_real_functions() -> None:
             assert referenced and referenced <= names, (function.Meta.name, referenced)
 
 
+def test_composed_examples_are_placed_on_their_driving_object_and_schema() -> None:
+    schema = NASCAR_CATALOG.schemas[0]
+    hosts = {function.Meta.name: function.Meta.tags for function in f.FUNCTIONS}
+    hosts |= {table.name: table.tags for table in schema.tables}
+    placements = {
+        "last_race_results": f.LATEST_RACE_STANDINGS_EXAMPLE,
+        "pit_stops": f.PIT_ROAD_BY_FINISHER_EXAMPLE,
+        "stage_results": f.STAGE_WINNERS_FINISH_EXAMPLE,
+        "lap_notes": f.COMMENTARY_MENTIONS_EXAMPLE,
+    }
+    assert sorted(placements.values()) == sorted(f.COMPOSED_EXAMPLES)
+    schema_sql = [example["sql"] for example in json.loads(schema.tags["vgi.example_queries"])]
+    for host, (_, sql) in placements.items():
+        # The agent simulator shows only the first five examples of each object.
+        host_sql = [example["sql"] for example in json.loads(hosts[host]["vgi.example_queries"])][:5]
+        assert sql in host_sql, host
+        assert sql in schema_sql, host
+        assert len(set(re.findall(r"nascar\.main\.(\w+)", sql))) >= 2, host
+
+
 def test_catalog_discovery_contract_is_public_and_machine_readable() -> None:
     examples = json.loads(NASCAR_CATALOG.tags["vgi.executable_examples"])
     tasks = json.loads(NASCAR_CATALOG.tags["vgi.agent_test_tasks"])
     assert all({"name", "description", "sql", "expected_result"} <= example.keys() for example in examples)
-    assert 6 <= len(tasks) <= 10
+    assert 6 <= len(tasks) <= 12
     assert all(set(task) == {"name", "prompt"} for task in tasks)
     assert len({task["name"] for task in tasks}) == len(tasks)
 

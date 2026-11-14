@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- `pit_stops()` durations (`pit_road_seconds`, `stop_seconds`, `in_travel_seconds`,
+  `out_travel_seconds`) are NULL when NASCAR did not time the visit. The feed's
+  `-1` placeholder (post-checkered and some pre-race visits) previously came
+  through as `-1.000` and skewed sums and averages.
+- Composed examples that combine the catalog's objects (latest race with the
+  current standings; results with pit stops, stage results and lap-by-lap
+  commentary) and two composed agent tasks (`stage_fastest_laps`,
+  `caution_pit_stops`).
+
 ## [0.2.0]
 
 - Port to VGI protocol 3.3 (vgi-python 0.51). Requires the current VGI DuckDB

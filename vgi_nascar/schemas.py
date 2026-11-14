@@ -236,8 +236,8 @@ PIT_STOP_SCHEMA = pa.schema(
         field("pit_out_flag_state", pa.int32(), "Flag code at pit exit."),
         field("pit_in_race_time", pa.float64(), "Elapsed race time at pit entry, in seconds."),
         field("pit_out_race_time", pa.float64(), "Elapsed race time at pit exit, in seconds."),
-        field("pit_road_seconds", SECONDS, "Total time on pit road, entry to exit, in seconds."),
-        field("stop_seconds", SECONDS, "Time stationary in the pit box, in seconds."),
+        field("pit_road_seconds", SECONDS, "Time on pit road, entry to exit, in seconds; NULL when untimed."),
+        field("stop_seconds", SECONDS, "Time stationary in the pit box, in seconds; NULL when untimed."),
         field("in_travel_seconds", SECONDS, "Time from pit entry to the pit box, in seconds."),
         field("out_travel_seconds", SECONDS, "Time from the pit box to pit exit, in seconds."),
         field("stop_type", pa.string(), "Service type, for example FOUR_WHEEL_CHANGE or OTHER."),
@@ -436,6 +436,12 @@ def to_decimal(value: Any, places: int = 3) -> Decimal | None:
     if not result.is_finite():
         return None
     return result.quantize(Decimal(1).scaleb(-places))
+
+
+def to_duration(value: Any) -> Decimal | None:
+    """Parse a non-negative duration in seconds; NASCAR's pit feed uses ``-1`` for "not timed"."""
+    result = to_decimal(value)
+    return result if result is not None and result >= 0 else None
 
 
 def to_str(value: Any) -> str | None:
@@ -865,10 +871,10 @@ def pit_stop_rows(
                 "pit_out_flag_state": to_int(stop.get("pit_out_flag_status")),
                 "pit_in_race_time": to_float(stop.get("pit_in_race_time")),
                 "pit_out_race_time": to_float(stop.get("pit_out_race_time")),
-                "pit_road_seconds": to_decimal(stop.get("total_duration")),
-                "stop_seconds": to_decimal(stop.get("pit_stop_duration")),
-                "in_travel_seconds": to_decimal(stop.get("in_travel_duration")),
-                "out_travel_seconds": to_decimal(stop.get("out_travel_duration")),
+                "pit_road_seconds": to_duration(stop.get("total_duration")),
+                "stop_seconds": to_duration(stop.get("pit_stop_duration")),
+                "in_travel_seconds": to_duration(stop.get("in_travel_duration")),
+                "out_travel_seconds": to_duration(stop.get("out_travel_duration")),
                 "stop_type": to_str(stop.get("pit_stop_type")),
                 "tires_changed": sum(1 for value in tires if value),
                 "left_front_changed": tires[0],

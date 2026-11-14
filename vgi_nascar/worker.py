@@ -10,7 +10,9 @@ from vgi import Worker
 from vgi.catalog import Catalog, ConstraintInfo, Schema, Table, constraint_record
 
 from vgi_nascar.functions import (
+    COMPOSED_EXAMPLES,
     FUNCTIONS,
+    LATEST_RACE_STANDINGS_EXAMPLE,
     CurrentScheduleFunction,
     CurrentStandingsFunction,
     LastRaceResultsFunction,
@@ -20,6 +22,13 @@ from vgi_nascar.meta import column_comments
 from vgi_nascar.schemas import LIVE_SCHEMA, RESULTS_SCHEMA, SCHEDULE_SCHEMA, STANDINGS_SCHEMA
 
 SOURCE_URL = "https://github.com/Query-farm/vgi-nascar"
+
+
+def _example_query(example: tuple[str, str]) -> dict[str, str]:
+    """A ``vgi.example_queries`` entry from a ``(description, sql)`` pair."""
+    description, sql = example
+    return {"description": description, "sql": sql}
+
 
 _STANDINGS_TAGS = {
     "provider": "nascar",
@@ -105,7 +114,8 @@ _LAST_RACE_TAGS = {
                     "FROM nascar.main.last_race_results WHERE series_id = 1 AND finishing_position <= 5 "
                     "ORDER BY finishing_position"
                 ),
-            }
+            },
+            _example_query(LATEST_RACE_STANDINGS_EXAMPLE),
         ]
     ),
 }
@@ -212,6 +222,20 @@ AGENT_TASKS: list[dict[str, str]] = [
     {
         "name": "pole_and_stage_winners",
         "prompt": "Who won the pole and who won each stage of the 2026 Cup Series Championship Race (5601)?",
+    },
+    {
+        "name": "stage_fastest_laps",
+        "prompt": (
+            "Using the stage lengths from the 2026 Cup schedule, who ran the fastest lap in each stage of "
+            "NASCAR race 5601? Return stage number, driver name and lap time in seconds, ordered by stage."
+        ),
+    },
+    {
+        "name": "caution_pit_stops",
+        "prompt": (
+            "How many pit stops were made during each caution of 2026 NASCAR race 5601, matching stops to "
+            "cautions by the leader's lap? Return caution number, reason and stop count, ordered by caution."
+        ),
     },
 ]
 
@@ -357,7 +381,10 @@ NASCAR_CATALOG = Catalog(
                     "pass it to the per-race functions; aggregate `season_results()` for season, team "
                     "and manufacturer statistics."
                 ),
-                "vgi.example_queries": _STANDINGS_TAGS["vgi.example_queries"],
+                "vgi.example_queries": json.dumps(
+                    json.loads(_STANDINGS_TAGS["vgi.example_queries"])
+                    + [_example_query(example) for example in COMPOSED_EXAMPLES]
+                ),
             },
             functions=FUNCTIONS,
             tables=[

@@ -203,6 +203,53 @@ def schedule_rows(season: int, series: str | None) -> list[dict[str, Any]]:
     return s.schedule_rows(races, _names(), missing_winners(season, races))
 
 
+# --- composed examples -------------------------------------------------------------
+# Queries that combine two of the catalog's objects. Each is listed once here, on the
+# example list of the object that drives it, and in the schema-level example list.
+
+PIT_ROAD_BY_FINISHER_EXAMPLE = (
+    "Top ten of the 2026 Cup Series Championship Race with the green- and yellow-flag pit stops "
+    "each made and their total time on pit road.",
+    "SELECT r.finishing_position, r.driver_name, count(*) AS stops, "
+    "sum(p.pit_road_seconds) AS pit_road_seconds "
+    "FROM nascar.main.race_results(5601, season := 2026) r "
+    "JOIN nascar.main.pit_stops(5601, season := 2026) p USING (driver_id) "
+    "WHERE r.finishing_position <= 10 AND p.pit_in_flag_state IN (1, 2) "
+    "GROUP BY r.finishing_position, r.driver_name ORDER BY r.finishing_position",
+)
+STAGE_WINNERS_FINISH_EXAMPLE = (
+    "Where each stage winner of the 2026 Cup Series Championship Race finished, and the laps they led.",
+    "SELECT s.stage_number, s.driver_name, s.stage_points, r.finishing_position, r.laps_led "
+    "FROM nascar.main.stage_results(5601, season := 2026) s "
+    "JOIN nascar.main.race_results(5601, season := 2026) r USING (driver_id) "
+    "WHERE s.position = 1 ORDER BY s.stage_number",
+)
+COMMENTARY_MENTIONS_EXAMPLE = (
+    "Drivers named most often in the 2026 Cup Series Championship Race lap-by-lap commentary, "
+    "with where each finished.",
+    "WITH mentions AS (SELECT unnest(driver_ids) AS driver_id "
+    "FROM nascar.main.lap_notes(5601, season := 2026)) "
+    "SELECT r.driver_name, count(*) AS mentions, r.finishing_position FROM mentions "
+    "JOIN nascar.main.race_results(5601, season := 2026) r USING (driver_id) "
+    "GROUP BY r.driver_name, r.finishing_position "
+    "ORDER BY mentions DESC, r.finishing_position LIMIT 10",
+)
+LATEST_RACE_STANDINGS_EXAMPLE = (
+    "Top five of each series' latest race with each driver's championship position, season points "
+    "and wins from the current standings.",
+    "SELECT s.series_name, r.finishing_position, r.driver_name, s.position AS championship_position, "
+    "s.points, s.wins FROM nascar.main.last_race_results r "
+    "JOIN nascar.main.current_standings s USING (series_id, driver_id) "
+    "WHERE r.finishing_position <= 5 ORDER BY r.series_id, r.finishing_position",
+)
+COMPOSED_EXAMPLES = [
+    LATEST_RACE_STANDINGS_EXAMPLE,
+    PIT_ROAD_BY_FINISHER_EXAMPLE,
+    STAGE_WINNERS_FINISH_EXAMPLE,
+    COMMENTARY_MENTIONS_EXAMPLE,
+]
+
+
 _SCHEDULE_EXAMPLES = [
     (
         "The 2025 Cup Series points races and their winners.",
@@ -645,7 +692,8 @@ _STAGE_EXAMPLES = [
         "Stage winners of the 2026 Cup Series Championship Race.",
         "SELECT stage_number, driver_name, stage_points FROM nascar.main.stage_results(5601, season := 2026) "
         "WHERE position = 1 ORDER BY stage_number",
-    )
+    ),
+    STAGE_WINNERS_FINISH_EXAMPLE,
 ]
 
 
@@ -820,7 +868,8 @@ _PIT_EXAMPLES = [
         "SELECT driver_name, lap, stop_seconds, pit_road_seconds "
         "FROM nascar.main.pit_stops(5601, season := 2026) "
         "WHERE stop_type = 'FOUR_WHEEL_CHANGE' AND pit_in_flag_state = 1 ORDER BY stop_seconds LIMIT 10",
-    )
+    ),
+    PIT_ROAD_BY_FINISHER_EXAMPLE,
 ]
 
 
@@ -868,7 +917,8 @@ _NOTE_EXAMPLES = [
         "Commentary for the final ten laps of the 2026 Cup Series Championship Race.",
         "SELECT lap, note FROM nascar.main.lap_notes(5601, season := 2026) "
         "WHERE lap >= 258 ORDER BY lap, note_id",
-    )
+    ),
+    COMMENTARY_MENTIONS_EXAMPLE,
 ]
 
 

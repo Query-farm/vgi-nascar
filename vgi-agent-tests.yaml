@@ -115,3 +115,40 @@ tasks:
     success_criteria: >-
       Uses session_results (qualifying) for the pole, Chase Briscoe, and stage_results for the
       stage winners, Tyler Reddick and Denny Hamlin.
+
+  - name: stage_fastest_laps
+    reference_sql: >-
+      WITH stages AS (
+        SELECT stage_1_laps AS stage_1_end, stage_1_laps + stage_2_laps AS stage_2_end
+        FROM nascar.main.schedule(season := 2026, series := 'cup')
+        WHERE race_id = 5601
+      ), laps AS (
+        SELECT CASE WHEN l.lap <= stage_1_end THEN 1 WHEN l.lap <= stage_2_end THEN 2 ELSE 3 END
+                 AS stage_number,
+               l.driver_name, l.lap_time_seconds
+        FROM nascar.main.lap_times(5601, season := 2026) l, stages
+        WHERE l.lap > 0
+      )
+      SELECT stage_number, arg_min(driver_name, lap_time_seconds) AS driver_name,
+             min(lap_time_seconds) AS lap_time_seconds
+      FROM laps
+      GROUP BY stage_number
+      ORDER BY stage_number
+    ignore_column_names: true
+    success_criteria: >-
+      Splits race 5601's lap_times into stages using schedule()'s stage_1_laps and stage_2_laps
+      (78 and 87): Tyler Reddick 32.760 in stage 1, Denny Hamlin 32.799 in stage 2 and Ryan
+      Blaney 32.616 in stage 3.
+
+  - name: caution_pit_stops
+    reference_sql: >-
+      SELECT c.caution_number, c.reason, count(p.stop_number) AS stops
+      FROM nascar.main.race_cautions(5601, season := 2026) c
+      LEFT JOIN nascar.main.pit_stops(5601, season := 2026) p
+        ON p.leader_lap BETWEEN c.start_lap AND c.end_lap
+      GROUP BY c.caution_number, c.reason
+      ORDER BY c.caution_number
+    ignore_column_names: true
+    success_criteria: >-
+      Joins race_cautions to pit_stops on leader_lap within each caution's lap range for race
+      5601: 38 stops under caution 1, 44 under caution 2 and 19 under caution 3.

@@ -195,6 +195,15 @@ GROUP BY driver_name
 ORDER BY median_green_lap
 LIMIT 10;
 
+-- Top ten with the green- and yellow-flag pit stops each made and their time on pit road
+SELECT r.finishing_position, r.driver_name, count(*) AS stops,
+       sum(p.pit_road_seconds) AS pit_road_seconds
+FROM nascar.main.race_results(5601, season := 2026) r
+JOIN nascar.main.pit_stops(5601, season := 2026) p USING (driver_id)
+WHERE r.finishing_position <= 10 AND p.pit_in_flag_state IN (1, 2)
+GROUP BY r.finishing_position, r.driver_name
+ORDER BY r.finishing_position;
+
 -- Fastest four-tire stops
 SELECT driver_name, lap, stop_seconds, pit_road_seconds, positions_gained
 FROM nascar.main.pit_stops(5601, season := 2026)

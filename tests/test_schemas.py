@@ -118,6 +118,28 @@ def test_pit_stop_rows() -> None:
     assert all(row["stop_number"] >= 1 for row in rows)
 
 
+def test_pit_stop_untimed_sentinel_is_null() -> None:
+    # Post-checkered and some pre-race pit-road visits carry -1 for every duration.
+    untimed = {
+        "vehicle_number": "12",
+        "lap_count": 267,
+        "leader_lap": 267,
+        "pit_in_flag_status": 4,
+        "total_duration": -1,
+        "pit_stop_duration": -1,
+        "in_travel_duration": -1,
+        "out_travel_duration": -1,
+        "pit_stop_type": "OTHER",
+    }
+    (row,) = s.pit_stop_rows([untimed], {}, 2026, 1, 5601)
+    s.batch([row], s.PIT_STOP_SCHEMA)
+    assert row["pit_road_seconds"] is None
+    assert row["stop_seconds"] is None
+    assert row["in_travel_seconds"] is None
+    assert row["out_travel_seconds"] is None
+    assert s.to_duration("0") == 0
+
+
 def test_lap_note_rows() -> None:
     rows = s.lap_note_rows(load("lap_notes_2026_1_5601.json"), 2026, 1, 5601)
     s.batch(rows, s.LAP_NOTES_SCHEMA)
