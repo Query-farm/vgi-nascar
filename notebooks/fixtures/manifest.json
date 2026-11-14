@@ -1,0 +1,38 @@
+{
+  "source": "NASCAR cf.nascar.com first-party public feeds",
+  "kind": "complete unmodified public response bodies",
+  "season": 2026,
+  "series_id": 1,
+  "race_id": 5601,
+  "capture_started_utc": "2026-11-14T08:26:08.952690+00:00",
+  "capture_finished_utc": "2026-11-14T08:26:09.575978+00:00",
+  "entries": [
+    {
+      "filename": "race-list.json",
+      "request_path": "/cacher/2026/race_list_basic.json",
+      "url": "https://cf.nascar.com/cacher/2026/race_list_basic.json",
+      "status": 200,
+      "retrieved_at_utc": "2026-11-14T08:26:09.160931+00:00",
+      "sha256": "eccf6afd5a373ea6959df03243cb6dd0ac49931bf2e6905a125ed7ed0b52b2a8",
+      "bytes": 269994
+    },
+    {
+      "filename": "weekend.json",
+      "request_path": "/cacher/2026/1/5601/weekend-feed.json",
+      "url": "https://cf.nascar.com/cacher/2026/1/5601/weekend-feed.json",
+      "status": 200,
+      "retrieved_at_utc": "2026-11-14T08:26:09.341930+00:00",
+      "sha256": "645d0a68ac923d6eb15925db9071e157971a4e2ee75793ff5e41550b2095df29",
+      "bytes": 66219
+    },
+    {
+      "filename": "pit-stops.json",
+      "request_path": "/cacher/2026/1/5601/live-pit-data.json",
+      "url": "https://cf.nascar.com/cacher/2026/1/5601/live-pit-data.json",
+      "status": 200,
+      "retrieved_at_utc": "2026-11-14T08:26:09.575978+00:00",
+      "sha256": "f7507c74bb78532beafd1ead9577af6a352e6dab2e348e7fd6fb9a881fa2309b",
+      "bytes": 182513
+    }
+  ]
+}
