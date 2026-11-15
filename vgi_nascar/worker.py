@@ -316,7 +316,11 @@ NASCAR_CATALOG = Catalog(
             "lookup) to the per-race functions. Missing upstream files yield empty results, not "
             "errors.\n\n"
             "Data is fetched on demand and cached in-process; nothing is rehosted. Not affiliated "
-            "with NASCAR."
+            "with NASCAR.\n\n"
+            "## Sources and references\n\n"
+            "* [NASCAR.com](https://www.nascar.com/): the official site whose public `cf.nascar.com` JSON "
+            "feeds this worker reads, for example the [driver directory "
+            "feed](https://cf.nascar.com/cacher/drivers.json)."
         ),
     },
     schemas=[

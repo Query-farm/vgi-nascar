@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+## [0.2.2]
+
+- Docs link to NASCAR.com and its public cf.nascar.com feeds: the catalog's
+  documentation gains a Sources and references section (vgi-lint VGI183).
+
 ## [0.2.1]
 
 - The `live_race` / `all_live_race` example descriptions say the query returns
