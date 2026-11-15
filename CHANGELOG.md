@@ -8,6 +8,8 @@ All notable changes to this project are documented here.
 
 - Docs link to NASCAR.com and its public cf.nascar.com feeds: the catalog's
   documentation gains a Sources and references section (vgi-lint VGI183).
+- The catalog documentation gives an overview of the worker instead of listing its
+  functions (vgi-lint VGI173); per-function guidance lives on each function's own docs.
 
 ## [0.2.1]
 

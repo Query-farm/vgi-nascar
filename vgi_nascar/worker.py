@@ -297,12 +297,14 @@ NASCAR_CATALOG = Catalog(
         "vgi.agent_test_tasks": json.dumps(AGENT_TASKS),
         "vgi.doc_llm": (
             "Read-only NASCAR data for the Cup, O'Reilly Auto Parts (formerly Xfinity) and Craftsman "
-            "Truck Series from NASCAR's own cf.nascar.com feeds. Tables: current_standings (driver "
-            "points), current_schedule (this season's races and winners), last_race_results and "
-            "live_race. Functions: schedule(season, series) from 2015, season_results(season, series) "
-            "for season aggregates, and per-race functions keyed by race_id (race_results, "
-            "session_results, stage_results, race_cautions, race_leaders, lap_times, pit_stops, "
-            "lap_notes, loop_stats) plus drivers(). series_id is 1 Cup, 2 O'Reilly, 3 Truck."
+            "Truck Series from NASCAR's own cf.nascar.com feeds. Argument-free current tables give "
+            "driver points, this season's races and winners, the latest results and the session on "
+            "track. Parameterized functions reach seasons from 2015: race calendars, whole-season "
+            "results for driver, team and manufacturer aggregates, and per-race detail keyed by "
+            "race_id (official, session and stage results, cautions, lead changes, lap times, pit "
+            "stops, commentary and loop-data ratings), plus a driver directory. Find a race_id in a "
+            "schedule and pass it, with its season, to the per-race functions. series_id is 1 Cup, "
+            "2 O'Reilly, 3 Truck."
         ),
         "vgi.doc_md": (
             "# NASCAR schedules, results and lap data\n\n"
