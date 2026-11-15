@@ -2,8 +2,11 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [0.2.1]
 
+- The `live_race` / `all_live_race` example descriptions say the query returns
+  0 with NULL lap and flag when no session is on track, the usual answer
+  between sessions (vgi-lint VGI913).
 - `pit_stops()` durations (`pit_road_seconds`, `stop_seconds`, `in_travel_seconds`,
   `out_travel_seconds`) are NULL when NASCAR did not time the visit. The feed's
   `-1` placeholder (post-checkered and some pre-race visits) previously came

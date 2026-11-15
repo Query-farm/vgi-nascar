@@ -1,6 +1,6 @@
 [project]
 name = "vgi-nascar"
-version = "0.2.0"
+version = "0.2.1"
 description = "A read-only VGI worker exposing NASCAR schedules, results, standings and lap data to Haybarn SQL"
 readme = "README.md"
 license = "MIT"

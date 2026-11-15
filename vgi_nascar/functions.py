@@ -1059,7 +1059,8 @@ class DriversFunction(TableFunctionGenerator[DriversArgs]):
 
 _LIVE_EXAMPLES = [
     (
-        "Read the table's backing scan directly: is anything on track right now?",
+        "Read the table's backing scan directly: is anything on track right now? "
+        "Returns 0 with NULL lap and flag when no session is running.",
         "SELECT count(*) AS sessions_on_track, max(lap_number) AS lap, max(flag) AS flag "
         "FROM nascar.main.all_live_race()",
     )

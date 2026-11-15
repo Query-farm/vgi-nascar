@@ -135,7 +135,10 @@ _LIVE_TAGS = {
     "vgi.example_queries": json.dumps(
         [
             {
-                "description": "Whether a session is on track, with its lap and flag.",
+                "description": (
+                    "Whether a session is on track, with its lap and flag; returns 0 with NULL "
+                    "session, lap and flag when no session is running."
+                ),
                 "sql": (
                     "SELECT count(*) AS sessions_on_track, max(run_name) AS session, "
                     "max(lap_number) AS lap, max(flag) AS flag FROM nascar.main.live_race"
