@@ -1,0 +1,48 @@
+# name: test/sql/nascar.test
+# description: Hermetic end-to-end coverage: every current table and the race scans, served
+#   from the recorded cf.nascar.com fixtures by test/mock_api/server.py (see ci/run-integration.sh).
+# group: [nascar]
+
+require vgi
+
+require-env VGI_NASCAR_WORKER
+
+require-env NASCAR_BASE_URL
+
+statement ok
+ATTACH 'nascar' (TYPE vgi, LOCATION '{VGI_NASCAR_WORKER}');
+
+query I
+SELECT count(*) FROM nascar.main.current_standings;
+----
+15
+
+query I
+SELECT count(DISTINCT series_id) FROM nascar.main.current_schedule;
+----
+3
+
+query I
+SELECT count(DISTINCT race_id) FROM nascar.main.last_race_results;
+----
+3
+
+query I
+SELECT count(*) FROM nascar.main.live_race;
+----
+0
+
+query T
+SELECT driver_name FROM nascar.main.race_results(5601, season := 2026) WHERE finishing_position = 1;
+----
+Ryan Blaney
+
+query I
+SELECT sum(laps_led) FROM nascar.main.race_leaders(5601, season := 2026);
+----
+267
+
+query I
+SELECT count(*) FROM nascar.main.lap_times(5601, season := 2026);
+----
+18
