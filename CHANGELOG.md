@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 ## 0.2.3 (2026-11-16)
 
 - Bump vgi-python to 0.52.2.
+- Move to Python 3.14: `requires-python >=3.14`, CI, the Docker image and lint tooling target 3.14.
+- CI runs the SQL tests through the starter's `ci/run-integration.sh` over stdio, launch and HTTP.
+- The Docker image's default `VERSION` matches the package.
 
 ## [0.2.2]
 
