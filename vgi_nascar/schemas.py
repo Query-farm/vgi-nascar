@@ -401,10 +401,10 @@ def to_int(value: Any) -> int | None:
         return None
     try:
         return int(value)
-    except (TypeError, ValueError, OverflowError):
+    except TypeError, ValueError, OverflowError:
         try:
             return int(float(value))
-        except (TypeError, ValueError, OverflowError):
+        except TypeError, ValueError, OverflowError:
             return None
 
 
@@ -420,7 +420,7 @@ def to_float(value: Any) -> float | None:
         return None
     try:
         result = float(value)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return None
     return result if result == result and result not in (float("inf"), float("-inf")) else None
 
@@ -431,7 +431,7 @@ def to_decimal(value: Any, places: int = 3) -> Decimal | None:
         return None
     try:
         result = Decimal(str(value))
-    except (InvalidOperation, ValueError):
+    except InvalidOperation, ValueError:
         return None
     if not result.is_finite():
         return None
