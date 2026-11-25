@@ -27,20 +27,22 @@ Auto Parts Series** (formerly Xfinity) and the **NASCAR Craftsman Truck
 Series**. It needs no credentials, and it does not rehost or persist a NASCAR
 dataset.
 
+vgi-nascar 0.3.0 speaks VGI protocol 3.4, so it needs Haybarn 2.0.1 or newer (Haybarn 2.0.0 loads a 3.3 `vgi` extension that cannot attach it).
+
 ## Quick start
 
 The worker is not published to PyPI. `uvx` runs the tagged release straight from
 GitHub and caches it after the first use:
 
 ```bash
-uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.2.3 vgi-nascar --help
+uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.3.0 vgi-nascar --help
 ```
 
 Launch Haybarn with the catalog pre-attached:
 
 ```bash
 uvx haybarn-cli \
-  -cmd "INSTALL vgi FROM community; LOAD vgi; ATTACH 'nascar' (TYPE vgi, LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.2.3 vgi-nascar');" \
+  -cmd "INSTALL vgi FROM community; LOAD vgi; ATTACH 'nascar' (TYPE vgi, LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.3.0 vgi-nascar');" \
   :memory:
 ```
 
@@ -51,7 +53,7 @@ INSTALL vgi FROM community;
 LOAD vgi;
 ATTACH 'nascar' (
   TYPE vgi,
-  LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.2.3 vgi-nascar'
+  LOCATION 'uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.3.0 vgi-nascar'
 );
 ```
 
@@ -277,7 +279,7 @@ authentication or an explicit decision to allow anonymous access:
 export VGI_SIGNING_KEY='a-long-random-secret-shared-by-every-replica'
 export VGI_BEARER_TOKENS='replace-with-a-random-token=haybarn'
 
-uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.2.3 vgi-nascar-http \
+uvx --from git+https://github.com/Query-farm/vgi-nascar@v0.3.0 vgi-nascar-http \
   --host 0.0.0.0 \
   --port 8000 \
   --cors-origins 'https://sql.example.com' \
